@@ -2,19 +2,22 @@ import React, { useState, useEffect } from "react";
 import "./Feed.css";
 import TweetBox from "../TweetBox/TweetBox";
 import Post from "../Post/Post";
-import db from "../../firebase";
+import { db } from "../../firebase";
+import { useStateValue } from "../../contextApi/StateProvider";
+import { Redirect } from "react-router-dom";
 
 import FlipMove from "react-flip-move";
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const [{ user }] = useStateValue();
 
   useEffect(() => {
     db.collection("posts").onSnapshot((snapshot) =>
       setPosts(snapshot.docs.map((doc) => doc.data()))
     );
   }, []);
+  if (!user?.uid) return <Redirect to="/login" />;
 
-  console.log(posts);
   return (
     <div className="feed">
       <div className="feed__header">

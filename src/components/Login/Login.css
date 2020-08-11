@@ -1,0 +1,45 @@
+.login {
+  display: grid;
+  place-items: center;
+}
+
+.login__logo {
+  color: var(--twitter-color) !important;
+  font-size: 50px !important;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.login__title {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 30px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.MuiFormLabel-root {
+  color: var(--twitter-color) !important;
+}
+
+.login__tweetButton {
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  width: 100%;
+  height: 40px !important;
+  margin-top: 20px !important;
+  margin-left: auto !important ;
+}
+
+.login__signupLink {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--twitter-color) !important;
+}
