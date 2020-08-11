@@ -72,7 +72,7 @@ const Post = forwardRef(
               {likes}
             </span>
             <PublishIcon fontSize="small" />
-            {userId == user.uid ? <DeleteIcon onClick={deleteTweet} /> : null}
+            {userId === user.uid ? <DeleteIcon onClick={deleteTweet} /> : null}
           </div>
         </div>
       </div>

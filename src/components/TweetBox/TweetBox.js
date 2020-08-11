@@ -15,7 +15,7 @@ function TweetBox() {
       userId: user.uid,
       displayName: userProfile.displayName,
       userName: userProfile.userName,
-      verified: userProfile.userName == "akshayjadhav" ? true : false,
+      verified: userProfile.userName === +"akshayjadhav" ? true : false,
       text: tweetMessage,
       image: tweetImage,
       avatar: "",
