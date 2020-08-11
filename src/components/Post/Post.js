@@ -6,17 +6,38 @@ import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineO
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { db } from "../../firebase";
+import { useStateValue } from "../../contextApi/StateProvider";
+
 const Post = forwardRef(
-  ({ displayName, userName, verified, text, likes, image, avatar }, ref) => {
+  (
+    {
+      userId,
+      displayName,
+      userName,
+      verified,
+      text,
+      postId,
+      likes,
+      image,
+      avatar,
+    },
+    ref
+  ) => {
+    const [{ user }] = useStateValue();
+
     const likeTweet = () => {
-      // db.collection("posts")
-      //   .doc()
-      //   .set({
-      //     likes: likes + 1,
-      //   });
+      db.collection("posts")
+        .doc(postId)
+        .update({
+          likes: likes + 1,
+        });
     };
 
+    const deleteTweet = () => {
+      db.collection("posts").doc(postId).delete();
+    };
     return (
       <div className="post" ref={ref}>
         <div className="post__avatar">
@@ -42,8 +63,16 @@ const Post = forwardRef(
           <div className="post__footer">
             <ChatBubbleOutlineOutlinedIcon fontSize="small" />
             <RepeatIcon fontSize="small" />
-            <FavoriteBorderIcon fontSize="small" onClick={likeTweet} />
+            <span>
+              <FavoriteBorderIcon
+                fontSize="small"
+                onClick={likeTweet}
+                style={{ color: likes > 0 ? "red" : "black" }}
+              />{" "}
+              {likes}
+            </span>
             <PublishIcon fontSize="small" />
+            {userId == user.uid ? <DeleteIcon onClick={deleteTweet} /> : null}
           </div>
         </div>
       </div>

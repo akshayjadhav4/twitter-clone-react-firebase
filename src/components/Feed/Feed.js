@@ -14,9 +14,17 @@ function Feed() {
   useEffect(() => {
     db.collection("posts")
       .orderBy("time", "desc")
-      .onSnapshot((snapshot) =>
-        setPosts(snapshot.docs.map((doc) => doc.data()))
-      );
+      .onSnapshot((snapshot) => {
+        const fetchedPosts = [];
+        snapshot.forEach((document) => {
+          const fetchedPost = {
+            id: document.id,
+            ...document.data(),
+          };
+          fetchedPosts.push(fetchedPost);
+        });
+        setPosts(fetchedPosts);
+      });
   }, []);
   if (!user?.uid) return <Redirect to="/login" />;
 
@@ -30,10 +38,12 @@ function Feed() {
       <FlipMove>
         {posts.map((post, index) => (
           <Post
+            userId={post.userId}
             displayName={post.displayName}
             userName={post.userName}
             verified={post.verified}
             text={post.text}
+            postId={post.id}
             likes={post.likes}
             image={post.image}
             avatar={post.avatar}

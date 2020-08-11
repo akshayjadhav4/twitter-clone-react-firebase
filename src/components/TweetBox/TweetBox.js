@@ -7,11 +7,12 @@ import { useStateValue } from "../../contextApi/StateProvider";
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
-  const [{ userProfile }] = useStateValue();
+  const [{ userProfile, user }] = useStateValue();
 
   const sendTweet = (e) => {
     e.preventDefault();
     db.collection("posts").add({
+      userId: user.uid,
       displayName: userProfile.displayName,
       userName: userProfile.userName,
       verified: userProfile.userName == "akshayjadhav" ? true : false,
