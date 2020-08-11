@@ -2,20 +2,24 @@ import React, { useState } from "react";
 import "./TweetBox.css";
 import { Button, Avatar } from "@material-ui/core";
 import { db } from "../../firebase";
+import { useStateValue } from "../../contextApi/StateProvider";
+
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
+  const [{ userProfile }] = useStateValue();
 
   const sendTweet = (e) => {
     e.preventDefault();
     db.collection("posts").add({
-      displayName: "Akshay Jadhav",
-      userName: "akshayjadhav",
-      verified: true,
+      displayName: userProfile.displayName,
+      userName: userProfile.userName,
+      verified: userProfile.userName == "akshayjadhav" ? true : false,
       text: tweetMessage,
       image: tweetImage,
-      avatar:
-        "https://avatars1.githubusercontent.com/u/34000732?s=460&u=640516ac2efab6dca8cd230a9b884c9ecba3a86b&v=4",
+      avatar: "",
+      time: new Date(),
+      likes: 0,
     });
     setTweetImage("");
     setTweetMessage("");

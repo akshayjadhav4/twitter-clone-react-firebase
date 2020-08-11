@@ -1,5 +1,6 @@
 export const initialState = {
   user: null,
+  userProfile: "",
 };
 
 function reducer(state, action) {
@@ -8,6 +9,11 @@ function reducer(state, action) {
       return {
         ...state,
         user: action.user,
+      };
+    case "SET_USER_PROFILE":
+      return {
+        ...state,
+        userProfile: action.userProfile,
       };
     default:
       return state;

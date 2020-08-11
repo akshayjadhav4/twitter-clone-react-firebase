@@ -12,9 +12,11 @@ function Feed() {
   const [{ user }] = useStateValue();
 
   useEffect(() => {
-    db.collection("posts").onSnapshot((snapshot) =>
-      setPosts(snapshot.docs.map((doc) => doc.data()))
-    );
+    db.collection("posts")
+      .orderBy("time", "desc")
+      .onSnapshot((snapshot) =>
+        setPosts(snapshot.docs.map((doc) => doc.data()))
+      );
   }, []);
   if (!user?.uid) return <Redirect to="/login" />;
 
@@ -32,6 +34,7 @@ function Feed() {
             userName={post.userName}
             verified={post.verified}
             text={post.text}
+            likes={post.likes}
             image={post.image}
             avatar={post.avatar}
             key={index}

@@ -6,8 +6,17 @@ import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineO
 import RepeatIcon from "@material-ui/icons/Repeat";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import PublishIcon from "@material-ui/icons/Publish";
+import { db } from "../../firebase";
 const Post = forwardRef(
-  ({ displayName, userName, verified, text, image, avatar }, ref) => {
+  ({ displayName, userName, verified, text, likes, image, avatar }, ref) => {
+    const likeTweet = () => {
+      // db.collection("posts")
+      //   .doc()
+      //   .set({
+      //     likes: likes + 1,
+      //   });
+    };
+
     return (
       <div className="post" ref={ref}>
         <div className="post__avatar">
@@ -33,7 +42,7 @@ const Post = forwardRef(
           <div className="post__footer">
             <ChatBubbleOutlineOutlinedIcon fontSize="small" />
             <RepeatIcon fontSize="small" />
-            <FavoriteBorderIcon fontSize="small" />
+            <FavoriteBorderIcon fontSize="small" onClick={likeTweet} />
             <PublishIcon fontSize="small" />
           </div>
         </div>

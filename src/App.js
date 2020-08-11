@@ -6,18 +6,30 @@ import Widgets from "./components/Widgets/Widgets";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
-import { auth } from "./firebase";
+import { db, auth } from "./firebase";
 import { useStateValue } from "./contextApi/StateProvider";
 function App() {
   const [{ user }, dispatch] = useStateValue();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
+        db.collection("users")
+          .doc(authUser.uid)
+          .onSnapshot((snapshot) => {
+            dispatch({
+              type: "SET_USER_PROFILE",
+              userProfile: snapshot.data(),
+            });
+          });
         dispatch({
           type: "SET_USER",
           user: authUser,
         });
       } else {
+        dispatch({
+          type: "SET_USER_PROFILE",
+          userProfile: "",
+        });
         dispatch({
           type: "SET_USER",
           user: null,
@@ -30,7 +42,6 @@ function App() {
     };
   }, [dispatch]);
 
-  console.log(user);
   return (
     <Router>
       <Switch>
